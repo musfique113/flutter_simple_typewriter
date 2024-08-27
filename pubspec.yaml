@@ -1,6 +1,6 @@
 name: flutter_simple_typewriter
 description: "A Flutter package that adds a typewriter effect to text fields, enhancing user interface interactivity."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/musfique113/flutter_simple_typewriter
 
 environment:
