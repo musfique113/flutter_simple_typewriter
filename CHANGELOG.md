@@ -1,3 +1,11 @@
-## 0.0.1
+# Changelog
 
-* TODO: Describe initial release.
+## 1.0.1
+
+* Initial release of `flutter_simple_typewriter`.
+* Added `AnimatedTextFormField` widget to provide typewriter effect for text fields.
+* Supported features:
+    * Typing and backspacing animations with customizable speeds (`typeSpeed` and `backspaceSpeed`).
+    * Configurable delay between typing and backspacing actions (`delay`).
+    * Cycling through a list of predefined search queries (`searchQueries`).
+    * Full compatibility with all standard `TextFormField` parameters for extensive customization.
