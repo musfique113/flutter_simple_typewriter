@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,8 +5,8 @@ class AnimatedTextFormField extends StatefulWidget {
   const AnimatedTextFormField({
     required this.searchQueries,
     this.typeSpeed = const Duration(milliseconds: 150),
-    this.backspaceSpeed = const Duration(milliseconds: 100),
     this.delay = const Duration(seconds: 1),
+    super.key,
     this.controller,
     this.focusNode,
     this.decoration,
@@ -15,12 +14,12 @@ class AnimatedTextFormField extends StatefulWidget {
     this.textInputAction,
     this.style,
     this.strutStyle,
-    this.textAlign = TextAlign.start,
+    this.textAlign= TextAlign.start,
     this.textAlignVertical,
     this.autofocus = false,
     this.readOnly = false,
     this.enabled,
-    this.maxLines = 1,
+    this.maxLines,
     this.minLines,
     this.expands = false,
     this.maxLength,
@@ -47,14 +46,11 @@ class AnimatedTextFormField extends StatefulWidget {
     this.mouseCursor,
     this.contextMenuBuilder,
     this.onTapOutside,
-    super.key,
   });
 
   final List<String> searchQueries;
   final Duration typeSpeed;
-  final Duration backspaceSpeed;
   final Duration delay;
-
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final InputDecoration? decoration;
@@ -100,59 +96,32 @@ class AnimatedTextFormField extends StatefulWidget {
 }
 
 class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
-  late TextEditingController _controller;
+  final TextEditingController _controller = TextEditingController();
   final ValueNotifier<String> _hintTextNotifier = ValueNotifier<String>('');
   int _queryIndex = 0;
-  Timer? _timer;
-  bool _isTyping = true;
 
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? TextEditingController();
-    _startTypewriterEffect();
+    _startTypingEffect();
   }
 
-  void _startTypewriterEffect() {
-    _timer = Timer.periodic(
-      _isTyping ? widget.typeSpeed : widget.backspaceSpeed,
-          (timer) {
-        if (_isTyping) {
-          if (_hintTextNotifier.value.length <
-              widget.searchQueries[_queryIndex].length) {
-            _hintTextNotifier.value += widget.searchQueries[_queryIndex]
-            [_hintTextNotifier.value.length];
-          } else {
-            _isTyping = false;
-            _pauseAndRestart(widget.delay);
-          }
-        } else {
-          if (_hintTextNotifier.value.isNotEmpty) {
-            _hintTextNotifier.value = _hintTextNotifier.value
-                .substring(0, _hintTextNotifier.value.length - 1);
-          } else {
-            _isTyping = true;
-            _queryIndex = (_queryIndex + 1) % widget.searchQueries.length;
-            _pauseAndRestart(widget.delay);
-          }
-        }
-      },
-    );
-  }
-
-  void _pauseAndRestart(Duration delay) {
-    _timer?.cancel();
-    Future.delayed(delay, () => _startTypewriterEffect);
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    if (widget.controller == null) {
-      _controller.dispose();
+  Future<void> _startTypingEffect() async {
+    while (true) {
+      for (var i = 0; i <= widget.searchQueries[_queryIndex].length; i++) {
+        await Future<dynamic>.delayed(widget.typeSpeed);
+        _hintTextNotifier.value =
+            widget.searchQueries[_queryIndex].substring(0, i);
+      }
+      await Future<dynamic>.delayed(widget.delay);
+      for (var i = widget.searchQueries[_queryIndex].length; i >= 0; i--) {
+        await Future<dynamic>.delayed(widget.typeSpeed);
+        _hintTextNotifier.value =
+            widget.searchQueries[_queryIndex].substring(0, i);
+      }
+      await Future<dynamic>.delayed(widget.delay);
+      _queryIndex = (_queryIndex + 1) % widget.searchQueries.length;
     }
-    _hintTextNotifier.dispose();
-    super.dispose();
   }
 
   @override
@@ -162,8 +131,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
       builder: (context, hintText, child) {
         return TextFormField(
           controller: _controller,
-          focusNode: widget.focusNode,
-          decoration: (widget.decoration ?? const InputDecoration()).copyWith(
+          decoration: InputDecoration(
             hintText: 'Search for $hintText',
           ),
           keyboardType: widget.keyboardType,
@@ -204,5 +172,12 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _hintTextNotifier.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 }
