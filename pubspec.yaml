@@ -4,7 +4,7 @@ version: 1.0.0
 homepage: https://github.com/musfique113/flutter_simple_typewriter
 
 environment:
-  sdk: '>=3.4.4 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
