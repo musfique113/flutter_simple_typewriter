@@ -9,6 +9,10 @@
 - **Loop through Queries**: Automatically cycles through a list of search queries or prompts.
 - **Pause and Resume**: Customize delay before the next action (typing or backspacing).
 
+## Demo
+
+<img src="https://github.com/user-attachments/assets/40d3c258-8235-4547-b663-5cc396bc64b7" alt="demo" height="600" width="300">
+
 ## Installation
 
 Add the following to your `pubspec.yaml` file:
