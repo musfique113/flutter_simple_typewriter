@@ -2,6 +2,12 @@
 
 ## 1.0.1
 
+* Fix ui freeze
+
+
+
+## 1.0.0
+
 * Initial release of `flutter_simple_typewriter`.
 * Added `AnimatedTextFormField` widget to provide typewriter effect for text fields.
 * Supported features:
