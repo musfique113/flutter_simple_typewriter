@@ -1,39 +1,129 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Flutter Simple Typewriter
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+`flutter_simple_typewriter` is a Flutter package for creating a typewriter effect in text fields. It animates text by typing it character by character, and can also backspace to simulate typing correction. This is particularly useful for search bars, login screens, or any text input fields that require engaging and dynamic text prompts.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Typewriter Animation**: Simulate typing and backspacing effects in any `TextFormField`.
+- **Customizable Speed**: Control the speed of typing and backspacing.
+- **Loop through Queries**: Automatically cycles through a list of search queries or prompts.
+- **Pause and Resume**: Customize delay before the next action (typing or backspacing).
 
-## Getting started
+## Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add the following to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  flutter_simple_typewriter: ^1.0.0
+```
+
+Then run:
+
+```bash
+flutter pub get
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+To use `flutter_simple_typewriter`, you just need to import it and use the `AnimatedTextFormField` widget in your widget tree.
+
+### Example
 
 ```dart
-const like = 'sample';
+import 'package:flutter/material.dart';
+import 'package:flutter_simple_typewriter/flutter_simple_typewriter.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Typewriter Example')),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: AnimatedTextFormField(
+              searchQueries: ['Flutter', 'Dart', 'Typewriter Effect'],
+              typeSpeed: Duration(milliseconds: 150),
+              backspaceSpeed: Duration(milliseconds: 100),
+              delay: Duration(seconds: 1),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Search',
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 ```
 
-## Additional information
+### Parameters
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+- `searchQueries` (List<String>): List of strings that the typewriter will cycle through. **Required**.
+- `typeSpeed` (Duration): Speed of typing. Defaults to `Duration(milliseconds: 150)`.
+- `backspaceSpeed` (Duration): Speed of backspacing. Defaults to `Duration(milliseconds: 100)`.
+- `delay` (Duration): Delay before starting the next query or action. Defaults to `Duration(seconds: 1)`.
+
+### Optional Parameters
+
+`AnimatedTextFormField` also accepts all standard `TextFormField` parameters for full customization of the text input field.
+
+For example:
+- `controller`
+- `focusNode`
+- `decoration`
+- `keyboardType`
+- `textInputAction`
+- `style`
+- `strutStyle`
+- `textAlign`
+- `textAlignVertical`
+- `autofocus`
+- `readOnly`
+- `enabled`
+- `maxLines`
+- `minLines`
+- `expands`
+- `maxLength`
+- `obscureText`
+- `autocorrect`
+- `smartDashesType`
+- `smartQuotesType`
+- `textCapitalization`
+- `enableSuggestions`
+- `onChanged`
+- `onTap`
+- `onEditingComplete`
+- `onFieldSubmitted`
+- `onSaved`
+- `validator`
+- `inputFormatters`
+- `enableInteractiveSelection`
+- `buildCounter`
+- `scrollPhysics`
+- `scrollController`
+- `initialValue`
+- `autovalidateMode`
+- `mouseCursor`
+- `contextMenuBuilder`
+- `onTapOutside`
+
+## Contributions
+
+Contributions are welcome! Please open an issue or submit a pull request with any features, bug fixes, or ideas.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This README provides an overview of the package, how to install and use it, and a list of customizable parameters that correspond to your Flutter widget.
