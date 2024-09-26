@@ -36,15 +36,76 @@ class _ExampleAppState extends State<ExampleApp> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: AnimatedTextFormField(
-            searchQueries: ['Flutter', 'Dart', 'Typewriter Effect'],
-            typeSpeed: const Duration(milliseconds: 150),
-            backspaceSpeed: const Duration(milliseconds: 100),
-            delay: const Duration(seconds: 1),
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Search',
-            ),
+          child: Column(
+            children: [
+              const AnimatedTextFormField(
+                searchQueries: ['Flutter', 'Dart', 'Typewriter Effect'],
+                typeSpeed: Duration(milliseconds: 150),
+                delay: Duration(seconds: 1),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Search',
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SecondScreen()),
+                    );
+                  },
+                  child: const Text('Go to next screen'))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SecondScreen extends StatefulWidget {
+  const SecondScreen({super.key});
+
+  @override
+  State<SecondScreen> createState() => _SecondScreenState();
+}
+
+class _SecondScreenState extends State<SecondScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Second Screen')),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const AnimatedTextFormField(
+                searchQueries: ['Flutter', 'Dart', 'Typewriter Effect'],
+                typeSpeed: Duration(milliseconds: 150),
+                delay: Duration(seconds: 1),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Search',
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ExampleApp()),
+                    );
+                  },
+                  child: const Text('Go to Previous screen'))
+            ],
           ),
         ),
       ),

@@ -14,7 +14,7 @@ class AnimatedTextFormField extends StatefulWidget {
     this.textInputAction,
     this.style,
     this.strutStyle,
-    this.textAlign= TextAlign.start,
+    this.textAlign = TextAlign.start,
     this.textAlignVertical,
     this.autofocus = false,
     this.readOnly = false,
@@ -99,6 +99,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
   final TextEditingController _controller = TextEditingController();
   final ValueNotifier<String> _hintTextNotifier = ValueNotifier<String>('');
   int _queryIndex = 0;
+  bool _isTyping = true;
 
   @override
   void initState() {
@@ -106,23 +107,25 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
     _startTypingEffect();
   }
 
-  Future<void> _startTypingEffect() async {
-    while (true) {
-      for (var i = 0; i <= widget.searchQueries[_queryIndex].length; i++) {
-        await Future<dynamic>.delayed(widget.typeSpeed);
-        _hintTextNotifier.value =
-            widget.searchQueries[_queryIndex].substring(0, i);
-      }
-      await Future<dynamic>.delayed(widget.delay);
-      for (var i = widget.searchQueries[_queryIndex].length; i >= 0; i--) {
-        await Future<dynamic>.delayed(widget.typeSpeed);
-        _hintTextNotifier.value =
-            widget.searchQueries[_queryIndex].substring(0, i);
-      }
-      await Future<dynamic>.delayed(widget.delay);
-      _queryIndex = (_queryIndex + 1) % widget.searchQueries.length;
+Future<void> _startTypingEffect() async {
+  while (_isTyping) {
+    for (var i = 0; i <= widget.searchQueries[_queryIndex].length; i++) {
+      await Future<dynamic>.delayed(widget.typeSpeed);
+      if (!mounted) return;
+      _hintTextNotifier.value =
+          widget.searchQueries[_queryIndex].substring(0, i);
     }
+    await Future<dynamic>.delayed(widget.delay);
+    for (var i = widget.searchQueries[_queryIndex].length; i >= 0; i--) {
+      await Future<dynamic>.delayed(widget.typeSpeed);
+      if (!mounted) return;
+      _hintTextNotifier.value =
+          widget.searchQueries[_queryIndex].substring(0, i);
+    }
+    await Future<dynamic>.delayed(widget.delay);
+    _queryIndex = (_queryIndex + 1) % widget.searchQueries.length;
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -176,6 +179,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
 
   @override
   void dispose() {
+    _isTyping = false;
     _hintTextNotifier.dispose();
     _controller.dispose();
     super.dispose();
