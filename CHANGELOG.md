@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 1.0.2
+
+* Fix ValueNotifier dispose warning
+
 ## 1.0.1
 
 * Fix ui freeze
